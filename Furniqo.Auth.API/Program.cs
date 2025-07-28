@@ -8,8 +8,10 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add DbContext
+/*builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));*/
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseInMemoryDatabase("FurniqoInMemoryDb"));
 
 // Add Authentication
 var jwtSettings = builder.Configuration.GetSection("Jwt");

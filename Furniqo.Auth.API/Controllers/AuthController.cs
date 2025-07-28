@@ -87,7 +87,7 @@ namespace Furniqo.Auth.API.Controllers
                 RefreshToken = newRefreshToken
             });
         }
-
+#if DEBUG
         [Authorize]
         [HttpGet("me")]
         public async Task<IActionResult> Me()
@@ -103,6 +103,21 @@ namespace Furniqo.Auth.API.Controllers
                 user.Role,
                 user.IsActive
             });
+        }
+#endif
+
+        [HttpGet("all-users")]
+        public IActionResult GetAllUsers()
+        {
+            var users = _db.Users.ToList();
+            return Ok(users);
+        }
+
+        [HttpGet("all-otp-sessions")]
+        public IActionResult GetAllOtpSessions()
+        {
+            var sessions = _db.OtpSessions.ToList();
+            return Ok(sessions);
         }
     }
 
