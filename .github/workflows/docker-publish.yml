@@ -26,4 +26,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: arulb2w/furniqorestapi:latest
+        tags: arulb2w/furniqoapi:latest
