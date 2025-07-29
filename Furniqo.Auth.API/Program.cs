@@ -15,6 +15,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Add Authentication
 var jwtSettings = builder.Configuration.GetSection("Jwt");
+var jwtKey = jwtSettings["Key"];
+
+if (string.IsNullOrWhiteSpace(jwtKey))
+    throw new InvalidOperationException("JWT secret key (Jwt:Key) is missing from configuration.");
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -31,7 +36,7 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
+            Encoding.UTF8.GetBytes(jwtKey))
     };
 });
 builder.Services.AddScoped<JwtService>();
